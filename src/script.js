@@ -16,7 +16,8 @@ function run() {
     while (index < prog.length){
             cycles--;
             if (cycles < 0){
-                if (confirm("Your program is taking quite a while to complete, would you like to keep it running or suspend it?")){
+                var suspend = confirm("Your program is taking quite a while to complete, would you like to suspend it?")
+                if (suspend){
                     break;
                 }
             }
@@ -45,6 +46,9 @@ function run() {
                         let userInput = NaN
                         while (true){
                             userInput = parseInt(prompt("Input an integer value", "0"))
+                            if (userInput == null){
+                                userInput = 0
+                            }
                             if (!isNaN(userInput)){
                                 break;
                             }
