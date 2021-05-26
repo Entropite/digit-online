@@ -1,5 +1,8 @@
 function run() {
-    prog = document.getElementById("program_input").value.trim();
+
+    prog = document.getElementById("program_input").value;
+    //process inputted program
+    prog = prog.replaceAll("\n", "").replaceAll(" ", "");
     //clear output
     document.getElementById("program_output").innerText = ""
     
@@ -19,15 +22,24 @@ function run() {
                 var suspend = confirm("Your program is taking quite a while to complete, would you like to suspend it?")
                 if (suspend){
                     break;
+                }else{
+                    cycles = 5000
                 }
             }
             if(prog[index] in registers){
-                keyRegister = parseInt(prog[index], 10)
+                keyRegister = parseInt(prog[index], 10);
+                if(index < prog.length-1 && prog[index+1] in registers){
+                    if(prog[index+1] == prog[index]){
+                        registers[keyRegister] = 0;
+                    }else{
+                        registers[parseInt(prog[index+1], 10)] = registers[keyRegister];
+                    }
+                }
             }else{
                 switch(prog[index]){
                     case "0":
                         if(registers[keyRegister] == 0){
-                            index += 2
+                            index += 2;
                         }
                         break;
                     case "1":
@@ -67,4 +79,21 @@ function run() {
 
     }
 
+    toggleLoader(false);
+
+}
+
+function toggleLoader(toggle){
+    if (toggle){
+        let loadingSymbol = document.createElement("DIV");
+        loadingSymbol.id = "loader";
+        document.getElementById("program_area").appendChild(loadingSymbol);
+        setTimeout(run, 1);
+    }else{
+        document.getElementById("loader").remove();
+    }
+}
+
+function clearProgramOutput(){
+    document.getElementById("program_output").innerText = "";
 }
