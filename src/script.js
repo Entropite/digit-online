@@ -55,20 +55,30 @@ function run() {
                         document.getElementById("program_output").innerText += "\n" + registers[keyRegister];
                         break;
                     case ".":
-                        let userInput = NaN
-                        while (true){
-                            userInput = parseInt(prompt("Input an integer value", "0"))
-                            if (userInput == null){
-                                userInput = 0
+                        if(index < prog.length-1 && prog[index+1] == "."){
+                            index+=2;
+                            let integerValue = "";
+                            while(index < prog.length-1 && prog[index] != "."){
+                                integerValue += prog[index];
+                                index += 1;
                             }
-                            if (!isNaN(userInput)){
-                                break;
-                            }
-                            alert("Please submit a valid integer response");
+                            console.log(integerValue);
+                            registers[keyRegister] = parseInt(integerValue);
+                        }else{
+                            let userInput = NaN
+                            while (true){
+                                userInput = parseInt(prompt("Input an integer value", "0"))
+                                if (userInput == null){
+                                    userInput = 0
+                                }
+                                if (!isNaN(userInput)){
+                                    break;
+                                }
+                                alert("Please submit a valid integer response");
 
+                            }
+                            registers[keyRegister] = userInput;
                         }
-                        registers[keyRegister] = userInput;
-
                         break;
                     default:
                         break;
